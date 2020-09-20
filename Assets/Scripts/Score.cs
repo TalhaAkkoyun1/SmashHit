@@ -15,15 +15,17 @@ public class Score : MonoBehaviour
      }
 
     // Update is called once per frame
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
 
-        if (other.gameObject.CompareTag("BallScore"))
-        {
+        if (collision.gameObject.tag == "BallScore")
+           {
             Debug.Log("where is my fucking point");
-            Destroy(other.gameObject);
+            Destroy(collision.gameObject);
             Debug.Log("ballCount");
             cameraCharacter.ballCount += 3;
         }
     }
+
+
 }

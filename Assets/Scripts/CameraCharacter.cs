@@ -27,23 +27,29 @@ public class CameraCharacter : MonoBehaviour
     void Update()
     {
 
-    GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 2.5f);
+        Debug.Log(Time.time);
+        Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
+        Quaternion targetRotation = Quaternion.LookRotation(ray.direction);
+
+    GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 3f);
 
         float mousePosx = Input.mousePosition.x;
         float mousePosy = Input.mousePosition.y;
 
-
+        
         Vector3 BallInstantiatePoint = _cam.ScreenToWorldPoint(new Vector3(mousePosx, mousePosy, _cam.nearClipPlane + spawnHelper));
         ballText.text = " ball =" + ballCount;
-
+        
+        
 
         if (Input.GetMouseButtonDown(0) && ballCount > 0)
         {
+            Vector3 targetloc = ray.direction;
+            ballCount -=1;
 
-            ballCount--;
             GameObject ballRigid;
             ballRigid = Instantiate(ball, BallInstantiatePoint, transform.rotation) as GameObject;
-            ballRigid.GetComponent<Rigidbody>().AddForce(Vector3.forward * ballForce);
+            ballRigid.GetComponent<Rigidbody>().AddForce(targetloc * ballForce);
         }
     }
 }
